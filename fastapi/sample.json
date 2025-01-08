@@ -1,0 +1,112 @@
+{
+    "success": true,
+    "profile_data": {
+      "username": "realkrsna",
+      "full_name": "KR$NA",
+      "biography": "I make rap music 🇮🇳",
+      "followers_count": 1193803,
+      "following_count": 330,
+      "is_verified": true,
+      "profile_pic_url": "https://scontent-lhr6-1.cdninstagram.com/v/t51.2885-19/269781855_763572117890385_4570901924500474135_n.jpg?stp=dst-jpg_e0_s150x150_tt6&_nc_ht=scontent-lhr6-1.cdninstagram.com&_nc_cat=109&_nc_ohc=Ho2geD5JAAoQ7kNvgF52urj&_nc_gid=a036618db9e54c8c9a9650b8925e6365&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AYAkrp7L-j4aBH5iNAaYic0PcOvFne7MXc3FjvnoGCwQZg&oe=6783DFDD&_nc_sid=8b3546",
+      "profile_url": "https://www.instagram.com/realkrsna/",
+      "external_url": "https://www.youtube.com/watch?v=vR16Gu-Uq00",
+      "business_category": "Musician/band",
+      "total_posts": 278
+    },
+    "profile_db_status": true,
+    "profile_db_message": "Profile data inserastracs:ufOpllnxsamMOJaBFdcQovyT:143c942d88b2ced528b01ca37bd87eff05937488395f00f78d39fce7a2b36c0eted successfully",
+    "posts_data": [
+      {
+        "post_id": "3534487686253487294",
+        "post_data": {
+          "username": "realkrsna",
+          "post_id": "3534487686253487294",
+          "post_type": "Sidecar",
+          "likes": 281507,
+          "comments": 2402,
+          "shares": 0,
+          "timestamp": "2024-12-30T13:03:07.000Z",
+          "profile_url": "https://www.instagram.com/p/DENBdL6IaS-/",
+          "caption": "I know I didn’t drop ‘enough’ music in 2024. I’m sorry I couldn’t deliver as much as you guys wanted this year, but I took some time off to live a little, travelled 7 countries, met new people and took advantage of this life your love and support has afforded me. Going into the new year, I’m ready to give you new music! Thank you for your patience and waiting on me, I will never let you down, I promise. It’s still awaam till the end and 2025 is ours. \n\nHappy new year!",
+          "video_views": 0,
+          "video_duration": 0
+        },
+        "db_insert_status": true,
+        "insert_message": "Post data inserted successfully"
+      },
+      {
+        "post_id": "3524170716570494937",
+        "post_data": {
+          "username": "realkrsna",
+          "post_id": "3524170716570494937",
+          "post_type": "Sidecar",
+          "likes": 356301,
+          "comments": 1845,
+          "shares": 0,
+          "timestamp": "2024-12-16T07:25:09.000Z",
+          "profile_url": "https://www.instagram.com/p/DDoXphJBKfZ/",
+          "caption": "Last night was a movie with my bro @karanaujla \nThank you for staying real through it all my brother! Love 💯 \n.\n.\n📷 @kartikkher #ykwim",
+          "video_views": 0,
+          "video_duration": 0
+        },
+        "db_insert_status": true,
+        "insert_message": "Post data inserted successfully"
+      },
+      {
+        "post_id": "3510474602323528461",
+        "post_data": {
+          "username": "realkrsna",
+          "post_id": "3510474602323528461",
+          "post_type": "Image",
+          "likes": 378205,
+          "comments": 5006,
+          "shares": 0,
+          "timestamp": "2024-11-27T09:53:25.000Z",
+          "profile_url": "https://www.instagram.com/p/DC3tg0whksN/",
+          "caption": "Officially the third young stunner! \nMet my bros for the first time, almost 5 years after we made one of the most iconic collabs in desi hip hop! \n@talhahanjum @talhahyunus",
+          "video_views": 0,
+          "video_duration": 0
+        },
+        "db_insert_status": true,
+        "insert_message": "Post data inserted successfully"
+      },
+      {
+        "post_id": "3500916239515756768",
+        "post_data": {
+          "username": "realkrsna",
+          "post_id": "3500916239515756768",
+          "post_type": "Video",
+          "likes": 202868,
+          "comments": 776,
+          "shares": 0,
+          "timestamp": "2024-11-14T05:29:50.000Z",
+          "profile_url": "https://www.instagram.com/p/DCVwMVsu6jg/",
+          "caption": "Keepin it hundo @realkrsna 💯\n\n🎶I Guess and No Cap by @realkrsna\n\n#IndiasRapScene #SpotifyRap91Live",
+          "video_views": 1363640,
+          "video_duration": 47
+        },
+        "db_insert_status": true,
+        "insert_message": "Post data inserted successfully"
+      },
+      {
+        "post_id": "3487202606060057056",
+        "post_data": {
+          "username": "realkrsna",
+          "post_id": "3487202606060057056",
+          "post_type": "Video",
+          "likes": 227159,
+          "comments": 1931,
+          "shares": 0,
+          "timestamp": "2024-10-26T07:22:27.000Z",
+          "profile_url": "https://www.instagram.com/p/DBlCEtSBrHg/",
+          "caption": "For those who dare to be unapologetically themselves - this is MYSLF.\n\n#YSLMYSLF #MYSLFNOMATTERWHAT #YSLBeauty\n#YSLFragrance #AD",
+          "video_views": 3241930,
+          "video_duration": 30
+        },
+        "db_insert_status": true,
+        "insert_message": "Post data inserted successfully"
+      }
+    ],
+    "total_posts": 278,
+    "error": null
+  }

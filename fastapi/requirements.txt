@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+apify-client
+cassandra-driver
+pydantic
+requests 
