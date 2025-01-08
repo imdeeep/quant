@@ -1,112 +1,422 @@
 {
-    "success": true,
-    "profile_data": {
-      "username": "realkrsna",
-      "full_name": "KR$NA",
-      "biography": "I make rap music 🇮🇳",
-      "followers_count": 1193803,
-      "following_count": 330,
-      "is_verified": true,
-      "profile_pic_url": "https://scontent-lhr6-1.cdninstagram.com/v/t51.2885-19/269781855_763572117890385_4570901924500474135_n.jpg?stp=dst-jpg_e0_s150x150_tt6&_nc_ht=scontent-lhr6-1.cdninstagram.com&_nc_cat=109&_nc_ohc=Ho2geD5JAAoQ7kNvgF52urj&_nc_gid=a036618db9e54c8c9a9650b8925e6365&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AYAkrp7L-j4aBH5iNAaYic0PcOvFne7MXc3FjvnoGCwQZg&oe=6783DFDD&_nc_sid=8b3546",
-      "profile_url": "https://www.instagram.com/realkrsna/",
-      "external_url": "https://www.youtube.com/watch?v=vR16Gu-Uq00",
-      "business_category": "Musician/band",
-      "total_posts": 278
-    },
-    "profile_db_status": true,
-    "profile_db_message": "Profile data inserastracs:ufOpllnxsamMOJaBFdcQovyT:143c942d88b2ced528b01ca37bd87eff05937488395f00f78d39fce7a2b36c0eted successfully",
-    "posts_data": [
-      {
+  "success": true,
+  "profile_data": {
+    "username": "realkrsna",
+    "full_name": "KR$NA",
+    "biography": "I make rap music 🇮🇳",
+    "followers_count": 1194058,
+    "following_count": 330,
+    "is_verified": true,
+    "profile_pic_url": "https://instagram.facc1-1.fna.fbcdn.net/v/t51.2885-19/269781855_763572117890385_4570901924500474135_n.jpg?stp=dst-jpg_e0_s150x150_tt6&_nc_ht=instagram.facc1-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=Ho2geD5JAAoQ7kNvgH3W_dO&_nc_gid=839f2a26a4f844218ab4581b8b37f3c6&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AYDuX7SNfQgvH8VSy2p7xQ0tdzGu6DVOnB9VoE8cFWe4zw&oe=6784181D&_nc_sid=8b3546",
+    "profile_url": "https://www.instagram.com/realkrsna/",
+    "external_url": "https://www.youtube.com/watch?v=vR16Gu-Uq00",
+    "business_category": "Musician/band",
+    "total_posts": 278
+  },
+  "posts_data": [
+    {
+      "post_id": "3534487686253487294",
+      "post_data": {
+        "post_number": "post_1",
+        "username": "realkrsna",
         "post_id": "3534487686253487294",
-        "post_data": {
-          "username": "realkrsna",
-          "post_id": "3534487686253487294",
-          "post_type": "Sidecar",
-          "likes": 281507,
-          "comments": 2402,
-          "shares": 0,
-          "timestamp": "2024-12-30T13:03:07.000Z",
-          "profile_url": "https://www.instagram.com/p/DENBdL6IaS-/",
-          "caption": "I know I didn’t drop ‘enough’ music in 2024. I’m sorry I couldn’t deliver as much as you guys wanted this year, but I took some time off to live a little, travelled 7 countries, met new people and took advantage of this life your love and support has afforded me. Going into the new year, I’m ready to give you new music! Thank you for your patience and waiting on me, I will never let you down, I promise. It’s still awaam till the end and 2025 is ours. \n\nHappy new year!",
-          "video_views": 0,
-          "video_duration": 0
-        },
-        "db_insert_status": true,
-        "insert_message": "Post data inserted successfully"
+        "post_type": "Sidecar",
+        "likes": 282002,
+        "comments": 2402,
+        "shares": 0,
+        "timestamp": "2024-12-30T13:03:07.000Z",
+        "profile_url": "https://www.instagram.com/p/DENBdL6IaS-/",
+        "caption": "I know I didn’t drop ‘enough’ music in 2024. I’m sorry I couldn’t deliver as much as you guys wanted this year, but I took some time off to live a little, travelled 7 countries, met new people and took advantage of this life your love and support has afforded me. Going into the new year, I’m ready to give you new music! Thank you for your patience and waiting on me, I will never let you down, I promise. It’s still awaam till the end and 2025 is ours. \n\nHappy new year!",
+        "video_views": 0,
+        "video_duration": 0
       },
-      {
+      "post_number": "post_1",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3524170716570494937",
+      "post_data": {
+        "post_number": "post_2",
+        "username": "realkrsna",
         "post_id": "3524170716570494937",
-        "post_data": {
-          "username": "realkrsna",
-          "post_id": "3524170716570494937",
-          "post_type": "Sidecar",
-          "likes": 356301,
-          "comments": 1845,
-          "shares": 0,
-          "timestamp": "2024-12-16T07:25:09.000Z",
-          "profile_url": "https://www.instagram.com/p/DDoXphJBKfZ/",
-          "caption": "Last night was a movie with my bro @karanaujla \nThank you for staying real through it all my brother! Love 💯 \n.\n.\n📷 @kartikkher #ykwim",
-          "video_views": 0,
-          "video_duration": 0
-        },
-        "db_insert_status": true,
-        "insert_message": "Post data inserted successfully"
+        "post_type": "Sidecar",
+        "likes": 356526,
+        "comments": 1845,
+        "shares": 0,
+        "timestamp": "2024-12-16T07:25:09.000Z",
+        "profile_url": "https://www.instagram.com/p/DDoXphJBKfZ/",
+        "caption": "Last night was a movie with my bro @karanaujla \nThank you for staying real through it all my brother! Love 💯 \n.\n.\n📷 @kartikkher #ykwim",
+        "video_views": 0,
+        "video_duration": 0
       },
-      {
+      "post_number": "post_2",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3510474602323528461",
+      "post_data": {
+        "post_number": "post_3",
+        "username": "realkrsna",
         "post_id": "3510474602323528461",
-        "post_data": {
-          "username": "realkrsna",
-          "post_id": "3510474602323528461",
-          "post_type": "Image",
-          "likes": 378205,
-          "comments": 5006,
-          "shares": 0,
-          "timestamp": "2024-11-27T09:53:25.000Z",
-          "profile_url": "https://www.instagram.com/p/DC3tg0whksN/",
-          "caption": "Officially the third young stunner! \nMet my bros for the first time, almost 5 years after we made one of the most iconic collabs in desi hip hop! \n@talhahanjum @talhahyunus",
-          "video_views": 0,
-          "video_duration": 0
-        },
-        "db_insert_status": true,
-        "insert_message": "Post data inserted successfully"
+        "post_type": "Image",
+        "likes": 378302,
+        "comments": 5006,
+        "shares": 0,
+        "timestamp": "2024-11-27T09:53:25.000Z",
+        "profile_url": "https://www.instagram.com/p/DC3tg0whksN/",
+        "caption": "Officially the third young stunner! \nMet my bros for the first time, almost 5 years after we made one of the most iconic collabs in desi hip hop! \n@talhahanjum @talhahyunus",
+        "video_views": 0,
+        "video_duration": 0
       },
-      {
+      "post_number": "post_3",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3500916239515756768",
+      "post_data": {
+        "post_number": "post_4",
+        "username": "realkrsna",
         "post_id": "3500916239515756768",
-        "post_data": {
-          "username": "realkrsna",
-          "post_id": "3500916239515756768",
-          "post_type": "Video",
-          "likes": 202868,
-          "comments": 776,
-          "shares": 0,
-          "timestamp": "2024-11-14T05:29:50.000Z",
-          "profile_url": "https://www.instagram.com/p/DCVwMVsu6jg/",
-          "caption": "Keepin it hundo @realkrsna 💯\n\n🎶I Guess and No Cap by @realkrsna\n\n#IndiasRapScene #SpotifyRap91Live",
-          "video_views": 1363640,
-          "video_duration": 47
-        },
-        "db_insert_status": true,
-        "insert_message": "Post data inserted successfully"
+        "post_type": "Video",
+        "likes": 202944,
+        "comments": 776,
+        "shares": 0,
+        "timestamp": "2024-11-14T05:29:50.000Z",
+        "profile_url": "https://www.instagram.com/p/DCVwMVsu6jg/",
+        "caption": "Keepin it hundo @realkrsna 💯\n\n🎶I Guess and No Cap by @realkrsna\n\n#IndiasRapScene #SpotifyRap91Live",
+        "video_views": 1364043,
+        "video_duration": 47
       },
-      {
+      "post_number": "post_4",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3487202606060057056",
+      "post_data": {
+        "post_number": "post_5",
+        "username": "realkrsna",
         "post_id": "3487202606060057056",
-        "post_data": {
-          "username": "realkrsna",
-          "post_id": "3487202606060057056",
-          "post_type": "Video",
-          "likes": 227159,
-          "comments": 1931,
-          "shares": 0,
-          "timestamp": "2024-10-26T07:22:27.000Z",
-          "profile_url": "https://www.instagram.com/p/DBlCEtSBrHg/",
-          "caption": "For those who dare to be unapologetically themselves - this is MYSLF.\n\n#YSLMYSLF #MYSLFNOMATTERWHAT #YSLBeauty\n#YSLFragrance #AD",
-          "video_views": 3241930,
-          "video_duration": 30
-        },
-        "db_insert_status": true,
-        "insert_message": "Post data inserted successfully"
-      }
-    ],
-    "total_posts": 278,
-    "error": null
-  }
+        "post_type": "Video",
+        "likes": 227277,
+        "comments": 1931,
+        "shares": 0,
+        "timestamp": "2024-10-26T07:22:27.000Z",
+        "profile_url": "https://www.instagram.com/p/DBlCEtSBrHg/",
+        "caption": "For those who dare to be unapologetically themselves - this is MYSLF.\n\n#YSLMYSLF #MYSLFNOMATTERWHAT #YSLBeauty\n#YSLFragrance #AD",
+        "video_views": 3242504,
+        "video_duration": 30
+      },
+      "post_number": "post_5",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3403066229274418067",
+      "post_data": {
+        "post_number": "post_6",
+        "username": "realkrsna",
+        "post_id": "3403066229274418067",
+        "post_type": "Sidecar",
+        "likes": 373453,
+        "comments": 5202,
+        "shares": 0,
+        "timestamp": "2024-07-02T05:12:09.000Z",
+        "profile_url": "https://www.instagram.com/p/C86HrSPB5uT/",
+        "caption": "For The Day Ones. Out now across platforms. \n.\nFeaturing @lisamishramusic @bhargkale @farishafi @karmathelekhak @deepkalsimusic @subspaceofficial @rizzyricoo \nMixed & Mastered by @ryansummermusic \nArtwork @sasta_acid \n@kalamkaarmusic",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_6",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3343018555590744226",
+      "post_data": {
+        "post_number": "post_7",
+        "username": "realkrsna",
+        "post_id": "3343018555590744226",
+        "post_type": "Sidecar",
+        "likes": 240493,
+        "comments": 2751,
+        "shares": 0,
+        "timestamp": "2024-04-10T08:48:08.000Z",
+        "profile_url": "https://www.instagram.com/p/C5kyaoLhpii/",
+        "caption": "Only if you knew\n.\n.\n.\n📷 @thebrunobless \n@kalamkaarmusic",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_7",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3331499518475862185",
+      "post_data": {
+        "post_number": "post_8",
+        "username": "realkrsna",
+        "post_id": "3331499518475862185",
+        "post_type": "Sidecar",
+        "likes": 223260,
+        "comments": 2389,
+        "shares": 0,
+        "timestamp": "2024-03-25T11:21:52.000Z",
+        "profile_url": "https://www.instagram.com/p/C473Sk4I4Cp/",
+        "caption": "Hope you’re having a good day\n.\n.\n.\n📷 @thebrunobless \n#desihiphop #desirap #snobshots",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_8",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3288725244394968127",
+      "post_data": {
+        "post_number": "post_9",
+        "username": "realkrsna",
+        "post_id": "3288725244394968127",
+        "post_type": "Sidecar",
+        "likes": 369763,
+        "comments": 2692,
+        "shares": 0,
+        "timestamp": "2024-01-26T10:57:01.000Z",
+        "profile_url": "https://www.instagram.com/p/C2j5i90BZQ_/",
+        "caption": "The only way is up ⬆️ \n.\n.\n.\n📷 @thebrunobless \n#desihiphop #desirap",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_9",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3284517742010835389",
+      "post_data": {
+        "post_number": "post_10",
+        "username": "realkrsna",
+        "post_id": "3284517742010835389",
+        "post_type": "Video",
+        "likes": 1114326,
+        "comments": 6624,
+        "shares": 0,
+        "timestamp": "2024-01-20T15:41:07.000Z",
+        "profile_url": "https://www.instagram.com/p/C2U83v3BiG9/",
+        "caption": "Fir bhi dil hai Hindustani 🇮🇳",
+        "video_views": 4828861,
+        "video_duration": 23
+      },
+      "post_number": "post_10",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3282121853619393336",
+      "post_data": {
+        "post_number": "post_11",
+        "username": "realkrsna",
+        "post_id": "3282121853619393336",
+        "post_type": "Sidecar",
+        "likes": 337825,
+        "comments": 3186,
+        "shares": 0,
+        "timestamp": "2024-01-17T08:17:16.000Z",
+        "profile_url": "https://www.instagram.com/p/C2McG-6h9M4/",
+        "caption": "Joota Japani MUSIC VIDEO OUT NOW\n\nLink in bio. \n📷 @thebrunobless \n\nShout out to the entire team. @umairmusicxx @kenharaki @ryansummermusic @akprojekts @kvfagar @kalamkaarmusic @saregama_official @dreamgirl.kako",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_11",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3279954897193435383",
+      "post_data": {
+        "post_number": "post_12",
+        "username": "realkrsna",
+        "post_id": "3279954897193435383",
+        "post_type": "Image",
+        "likes": 207185,
+        "comments": 4371,
+        "shares": 0,
+        "timestamp": "2024-01-14T08:31:54.000Z",
+        "profile_url": "https://www.instagram.com/p/C2EvZnehID3/",
+        "caption": "First drop of the year! Joota Japani - 17/01/24.\n.\n.\n.\nArtwork @sasta_acid \n@saregama_official @kalamkaarmusic",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_12",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3264775709180409566",
+      "post_data": {
+        "post_number": "post_13",
+        "username": "realkrsna",
+        "post_id": "3264775709180409566",
+        "post_type": "Sidecar",
+        "likes": 282394,
+        "comments": 3005,
+        "shares": 0,
+        "timestamp": "2023-12-24T09:53:34.000Z",
+        "profile_url": "https://www.instagram.com/p/C1O0DXBBbbe/",
+        "caption": "I bet on me \n.\n.\n.\n.\n@kalamkaarmusic \n#desirap #desihiphop #rap #hiphop #streetwear #snobshots",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_13",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3249477023273595326",
+      "post_data": {
+        "post_number": "post_14",
+        "username": "realkrsna",
+        "post_id": "3249477023273595326",
+        "post_type": "Sidecar",
+        "likes": 286719,
+        "comments": 5468,
+        "shares": 0,
+        "timestamp": "2023-12-03T07:17:49.000Z",
+        "profile_url": "https://www.instagram.com/p/C0YdiLeBDG-/",
+        "caption": "I’m the one they counted out \n.\n.\n.\n#2024imatyourthroat #cashflowkrish #itsawaamtilltheend @crtz.rtw @moncler @bape_japan",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_14",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3211102453429075075",
+      "post_data": {
+        "post_number": "post_15",
+        "username": "realkrsna",
+        "post_id": "3211102453429075075",
+        "post_type": "Sidecar",
+        "likes": 271842,
+        "comments": 2073,
+        "shares": 0,
+        "timestamp": "2023-10-11T08:34:23.000Z",
+        "profile_url": "https://www.instagram.com/p/CyQIKsSBnyD/",
+        "caption": "HOLA AMIGO music video OUT NOW. Link in bio. \n\nKR$NA x @seedhemaut already iconic! \n.\nShoutout to @manil.mk for understanding the vision and delivering a fire video!\n.\nShout out to the boys @encoreabj @theycallmecalm @umairmusicxx \n.\nMariachi outfits designed and made by @dollaypop\nStyled by: Me\n📷 @lensingtheworld \n@kalamkaarmusic @believeasd",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_15",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3190945178093642009",
+      "post_data": {
+        "post_number": "post_16",
+        "username": "realkrsna",
+        "post_id": "3190945178093642009",
+        "post_type": "Sidecar",
+        "likes": 341441,
+        "comments": 4086,
+        "shares": 0,
+        "timestamp": "2023-09-13T13:05:29.000Z",
+        "profile_url": "https://www.instagram.com/p/CxIg7uuBGEZ/",
+        "caption": "Mere bin game me maza nahi kyun? \n.\n.\n@kalamkaarmusic \nstyled by @dollaypop \nShot by @akash_siingh",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_16",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3185739342232096014",
+      "post_data": {
+        "post_number": "post_17",
+        "username": "realkrsna",
+        "post_id": "3185739342232096014",
+        "post_type": "Sidecar",
+        "likes": 373359,
+        "comments": 3774,
+        "shares": 0,
+        "timestamp": "2023-09-06T08:42:25.000Z",
+        "profile_url": "https://www.instagram.com/p/Cw2BQ2Quw0O/",
+        "caption": "Far From Over EP. Stream Now.\nBhubaneshwar was kraykray.\nWhat city should we shake up next.\n👺👺👺👺👺",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_17",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3182823661753403948",
+      "post_data": {
+        "post_number": "post_18",
+        "username": "realkrsna",
+        "post_id": "3182823661753403948",
+        "post_type": "Sidecar",
+        "likes": 297420,
+        "comments": 2969,
+        "shares": 0,
+        "timestamp": "2023-09-02T08:09:29.000Z",
+        "profile_url": "https://www.instagram.com/p/CwrqUHNhQos/",
+        "caption": "On course with @taylormadegolfin \nProud to partner with the top name in Golf. \n@taylormadegolf \n.\n📷 @kartikkher \n.\n#golf #golfindia @trinitygolf_india #rap #hiphop #jordan1golf #taylormade",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_18",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3180754077867473276",
+      "post_data": {
+        "post_number": "post_19",
+        "username": "realkrsna",
+        "post_id": "3180754077867473276",
+        "post_type": "Image",
+        "likes": 133399,
+        "comments": 2556,
+        "shares": 0,
+        "timestamp": "2023-08-30T11:37:35.000Z",
+        "profile_url": "https://www.instagram.com/p/CwkTvtBKnl8/",
+        "caption": "He’s one of India’s most bona fide rappers, lighting up the local hip-hop scene with unparalleled lyrics and a supersonic delivery that’s put him ahead of the curve. There’s no better proof of it than with his spanking new EP, Far From Over.  \n \nBut rumour has it that KR$NA (@realkrsna) doesn’t smile much when he’s in front of the camera. In fact, there’s little out there in the virtual world to suggest who the OG Krishna Kaul really is. Until he gave Man’s World unprecedented access to the man behind the music. Oh, and we actually made him laugh. Head to the #linkinbio for Kaul’s most intimate interview yet.\n\n✍️: Shivangi Lolayekar (@shivangil23)\n\nPhotographer: Keegan Crasto/ Public Butter at Inega Talents (@keegancrasto / @publicbutterindia / @inega.in)\nCreative Director: Kapil Batus (@kapilbatus)\nHead of Production: Siddhi Chavan (@randomwonton)\nStylists: Peusha Sethia & Sakshi Prithyani (@thepechestylists)\nHMU: Taskeen Chunawala (@taskeen_c)\nLocation Courtesy: The Honest Studio (@thehoneststudios)\n\nOutfit: Dhruv Kapoor blazer (@dhruvkapoor)",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_19",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    },
+    {
+      "post_id": "3159688394107242284",
+      "post_data": {
+        "post_number": "post_20",
+        "username": "realkrsna",
+        "post_id": "3159688394107242284",
+        "post_type": "Image",
+        "likes": 258047,
+        "comments": 5373,
+        "shares": 0,
+        "timestamp": "2023-08-01T10:03:50.000Z",
+        "profile_url": "https://www.instagram.com/p/CvZd9qLr8cs/",
+        "caption": "Thanda Dil, Thanda Dimaag aur Thandi Jäger…It’s a cold combination 🥶\n.\n.\n.\n\n#icecold @jagermeister.india \n#bestnights #jagermeister #icecoldshots #haanpehleyekarlo #prayerhands",
+        "video_views": 0,
+        "video_duration": 0
+      },
+      "post_number": "post_20",
+      "db_insert_status": true,
+      "insert_message": "Post data ready"
+    }
+  ],
+  "total_posts": 278,
+  "error": null,
+  "db_status": true,
+  "db_message": "Data inserted successfully"
+} 

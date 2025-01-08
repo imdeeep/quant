@@ -1,6 +1,6 @@
 fastapi
 uvicorn
 apify-client
-cassandra-driver
+astrapy>=0.7.4
 pydantic
 requests 

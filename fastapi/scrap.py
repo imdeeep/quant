@@ -1,8 +1,7 @@
 from apify_client import ApifyClient
 from urllib.parse import urlparse
-from cassandra.cluster import Cluster
-from cassandra.auth import PlainTextAuthProvider
 from datetime import datetime
+from vectorStaxConnect import db  # Import the database connection from vectorStaxConnect
 
 # Initialize the ApifyClient with your API token
 apify_client = ApifyClient('apify_api_KzmKE3wuJeT7jacl4mceqjwJGkfYCS0CFPIg')
@@ -12,77 +11,42 @@ def get_instagram_username(url):
     username = parsed_url.path.strip('/').split('/')[0]
     return username
 
-# Database configuration
-client_id = 'EeouaCamaMPvmqYYxuaqgHFP'
-client_secret = 'yRZMXchZZINKW4W2DAuiujErkhKDzsw0wbTTzk91LQsiMGPe.n4jwLuf+T-I4WwhRIQODhb+Ec3B_KqiLFKuDd+3tgLagCqY6fvjx8SQQxoWKeZR,LA-fNCktPgDNncn'
-keyspace = 'social_media'
-
-def delete_user_data(session, username):
+def delete_user_data(username):
     """Delete all data for a specific username"""
-    delete_query = """
-    DELETE FROM instagram_data WHERE username = %s
-    """
     try:
-        session.execute(delete_query, (username,))
+        instagram_collection = db.get_collection("instagram_data")
+        instagram_collection.delete_many({"username": username})
         print(f"🗑️ Deleted previous data for username: {username}")
     except Exception as e:
         print(f"❌ Error deleting user data: {str(e)}")
 
-def drop_and_create_table(session, username):
-    """Drop existing table and create a new one"""
-    # First drop the existing table
-    drop_table_query = """
-    DROP TABLE IF EXISTS instagram_data;
-    """
-    try:
-        session.execute(drop_table_query)
-        print(f"🗑️ Dropped existing table for username: {username}")
-    except Exception as e:
-        print(f"❌ Error dropping table: {str(e)}")
-
-    # Create new table
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS instagram_data (
-        username text,
-        post_id text,
-        post_type text,
-        likes int,
-        comments int,
-        shares int,
-        timestamp text,
-        profile_url text,
-        caption text,
-        PRIMARY KEY ((username), post_id)
-    );
-    """
-    session.execute(create_table_query)
-    print("✅ New table created successfully.\n")
-
-def insert_post_to_astra(session, post_data):
+def insert_post_to_astra(post_data):
     """Insert post data into Astra DB with status"""
-    query = """
-    INSERT INTO instagram_data (
-        username, post_id, post_type, likes, comments, shares, 
-        timestamp, profile_url, caption, video_views, video_duration
-    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
     try:
-        session.execute(query, (
-            post_data['username'],
-            post_data['post_id'],
-            post_data['post_type'],
-            post_data['likes'],
-            post_data['comments'],
-            post_data['shares'],
-            post_data['timestamp'],
-            post_data['profile_url'],
-            post_data['caption'],
-            post_data.get('video_views', 0),
-            post_data.get('video_duration', 0)
-        ))
+        instagram_collection = db.get_collection("instagram_data")
+        # Add a type field to identify this as a post
+        post_data['data_type'] = 'post'
+        instagram_collection.insert_one(post_data)
         return True, "Post data inserted successfully"
     except Exception as e:
         return False, f"Error inserting post data: {str(e)}"
+
+def insert_profile_to_astra(profile_data):
+    """Insert profile data into Astra DB"""
+    try:
+        instagram_collection = db.get_collection("instagram_data")
+        # Add a type field to identify this as a profile
+        profile_data['data_type'] = 'profile'
+        # Delete existing profile data for this username
+        instagram_collection.delete_many({
+            "username": profile_data['username'],
+            "data_type": "profile"
+        })
+        # Insert new profile data
+        instagram_collection.insert_one(profile_data)
+        return True, "Profile data inserted successfully"
+    except Exception as e:
+        return False, f"Error inserting profile data: {str(e)}"
 
 def print_post_details(post_data):
     print("="*50)
@@ -108,55 +72,6 @@ def print_post_details(post_data):
     print(f"Caption: {post_data['caption'][:100]}..." if post_data['caption'] else "Caption: None")
     print("-"*50)
 
-def drop_and_create_profile_table(session):
-    """Drop existing profile table and create a new one"""
-    drop_table_query = "DROP TABLE IF EXISTS instagram_profile;"
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS instagram_profile (
-        username text PRIMARY KEY,
-        full_name text,
-        biography text,
-        followers_count int,
-        following_count int,
-        is_verified boolean,
-        profile_pic_url text,
-        profile_url text,
-        external_url text,
-        business_category text
-    );
-    """
-    try:
-        session.execute(drop_table_query)
-        session.execute(create_table_query)
-        print("✅ Profile table created successfully")
-    except Exception as e:
-        print(f"❌ Error creating profile table: {str(e)}")
-
-def insert_profile_to_astra(session, profile_data):
-    """Insert profile data into Astra DB"""
-    insert_query = """
-    INSERT INTO instagram_profile (
-        username, full_name, biography, followers_count, following_count,
-        is_verified, profile_pic_url, profile_url, external_url, business_category
-    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
-    try:
-        session.execute(insert_query, (
-            profile_data['username'],
-            profile_data['full_name'],
-            profile_data['biography'],
-            profile_data['followers_count'],
-            profile_data['following_count'],
-            profile_data['is_verified'],
-            profile_data['profile_pic_url'],
-            profile_data['profile_url'],
-            profile_data['external_url'],
-            profile_data['business_category']
-        ))
-        return True, "Profile data inserted successfully"
-    except Exception as e:
-        return False, f"Error inserting profile data: {str(e)}"
-
 def print_profile_details(profile):
     """Print formatted profile details"""
     print("\n📱 Profile Details:")
@@ -171,52 +86,42 @@ def print_profile_details(profile):
     print(f"🔗 External URL: {profile['external_url']}")
     print(f"💼 Business Category: {profile['business_category']}\n")
 
-def drop_and_create_posts_table(session):
-    """Drop existing posts table and create a new one"""
-    drop_table_query = "DROP TABLE IF EXISTS instagram_data;"
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS instagram_data (
-        username text,
-        post_id text,
-        post_type text,
-        likes int,
-        comments int,
-        shares int,
-        timestamp text,
-        profile_url text,
-        caption text,
-        video_views int,
-        video_duration int,
-        PRIMARY KEY (username, post_id)
-    );
-    """
+def insert_data_to_astra(profile_data, posts_data):
+    """Insert both profile and posts data as a single nested document"""
     try:
-        session.execute(drop_table_query)
-        session.execute(create_table_query)
-        print("✅ Posts table created successfully")
+        instagram_collection = db.get_collection("instagram_data")
+        
+        # Create the nested structure with numbered posts
+        numbered_posts = {}
+        for idx, post in enumerate(posts_data, 1):  # Start counting from 1
+            numbered_posts[f"post_{idx}"] = post['post_data']
+        
+        document = {
+            "username": profile_data['username'],
+            "profile_data": profile_data,
+            "posts": numbered_posts,
+            "last_updated": datetime.now().isoformat()
+        }
+        
+        # Delete existing data for this username only
+        instagram_collection.delete_many({"username": profile_data['username']})
+        print(f"🗑️ Cleared existing data for username: {profile_data['username']}")
+        
+        # Insert the new nested document
+        instagram_collection.insert_one(document)
+        return True, "Data inserted successfully"
     except Exception as e:
-        print(f"❌ Error creating posts table: {str(e)}")
+        return False, f"Error inserting data: {str(e)}"
 
 def scrape_instagram_profile(username: str, results_limit: int = 5):
     """
     Scrape Instagram profile and posts data, store in database and return results
-    
-    Args:
-        username (str): Instagram username to scrape
-        results_limit (int): Number of posts to fetch (default: 5)
-    
-    Returns:
-        dict: Dictionary containing profile_data and posts_data
     """
     try:
-        # Connect to database
-        auth_provider = PlainTextAuthProvider(client_id, client_secret)
-        cluster = Cluster(
-            cloud={'secure_connect_bundle': './secure-connect-socialmediadb2.zip'}, 
-            auth_provider=auth_provider
-        )
-        session = cluster.connect(keyspace)
-
+        # Ensure results_limit is an integer and print for debugging
+        results_limit = int(results_limit)
+        print(f"🎯 Requested {results_limit} posts")
+        
         # Initialize return data
         result = {
             'profile_data': None,
@@ -226,9 +131,10 @@ def scrape_instagram_profile(username: str, results_limit: int = 5):
         }
 
         try:
-            # Drop and recreate tables
-            drop_and_create_profile_table(session)
-            drop_and_create_posts_table(session)
+            # First, clear ALL existing data from collection
+            instagram_collection = db.get_collection("instagram_data")
+            instagram_collection.delete_many({})
+            print("🗑️ Cleared all existing data from database")
 
             # Configure input for user details
             input_data = {
@@ -243,7 +149,8 @@ def scrape_instagram_profile(username: str, results_limit: int = 5):
             }
 
             print(f"🔄 Starting Instagram scraper for {username}...")
-            
+            print(f"📊 Attempting to fetch {results_limit} posts...")
+
             # Get user details
             actor_call = apify_client.actor('apify/instagram-scraper').call(
                 run_input=input_data,
@@ -276,18 +183,14 @@ def scrape_instagram_profile(username: str, results_limit: int = 5):
                 'total_posts': profile_item.get('postsCount', 0)
             }
 
-            # Store profile data with status
-            db_success, db_message = insert_profile_to_astra(session, profile_data)
             result['profile_data'] = profile_data
-            result['profile_db_status'] = db_success
-            result['profile_db_message'] = db_message
 
-            # Configure input for posts
+            # Update the posts scraping configuration
             input_data.update({
                 "resultsType": "posts",
-                "maxItems": results_limit,
+                "maxItems": results_limit,  # Set the maximum items to fetch
                 "searchType": "user",
-                "searchLimit": results_limit,
+                "searchLimit": results_limit,  # Set the search limit
                 "extendOutputFunction": """async ({ data, item, page, customData }) => {
                     return item;
                 }""",
@@ -297,27 +200,33 @@ def scrape_instagram_profile(username: str, results_limit: int = 5):
                 "scrapeReels": True,
                 "scrapePosts": True,
                 "scrapeComments": False,
-                "sort": "newest"
+                "sort": "newest",
+                "limit": results_limit  # Add an explicit limit
             })
 
-            # Get posts data
+            # Increase timeout for larger number of posts
             actor_call = apify_client.actor('apify/instagram-scraper').call(
                 run_input=input_data,
-                timeout_secs=120
+                timeout_secs=300  # Increased timeout to 5 minutes for more posts
             )
             
             posts_items = apify_client.dataset(actor_call['defaultDatasetId']).list_items().items
-            posts_items = sorted(posts_items, key=lambda x: x.get('timestamp', ''), reverse=True)[:results_limit]
-
-            # Process posts with DB status
+            posts_items = sorted(posts_items, key=lambda x: x.get('timestamp', ''), reverse=True)
+            
+            # Make sure we get the requested number of posts
+            if len(posts_items) < results_limit:
+                print(f"⚠️ Warning: Only found {len(posts_items)} posts, less than requested {results_limit}")
+            
+            # Process all fetched posts
             result['posts_data'] = []
-            for item in posts_items:
+            for idx, item in enumerate(posts_items[:results_limit], 1):
                 if 'error' in item:
                     continue
                     
                 video_duration = int(round(item.get('videoDuration', 0))) if isinstance(item.get('videoDuration'), float) else 0
                 
                 post_data = {
+                    'post_number': f"post_{idx}",  # Add post number
                     'username': username,
                     'post_id': item.get('id', 'unknown'),
                     'post_type': item.get('type', 'unknown'),
@@ -331,32 +240,58 @@ def scrape_instagram_profile(username: str, results_limit: int = 5):
                     'video_duration': video_duration if item.get('type', '').lower() == 'video' else 0
                 }
                 
-                # Insert post and get status
-                db_success, db_message = insert_post_to_astra(session, post_data)
-                
                 result['posts_data'].append({
                     'post_id': post_data['post_id'],
                     'post_data': post_data,
-                    'db_insert_status': db_success,
-                    'insert_message': db_message
+                    'post_number': f"post_{idx}",  # Add post number to response
+                    'db_insert_status': True,
+                    'insert_message': 'Post data ready'
                 })
 
+            # Store both profile and posts data together
+            db_success, db_message = insert_data_to_astra(profile_data, result['posts_data'])
+            result['db_status'] = db_success
+            result['db_message'] = db_message
+
             result['success'] = True
+            print(f"✅ Successfully fetched {len(result['posts_data'])} posts")
+
+            return result
 
         except Exception as e:
             result['error'] = str(e)
             print(f"❌ Error processing data: {str(e)}")
-
-        finally:
-            if 'session' in locals():
-                cluster.shutdown()
-
-        return result
+            return result
 
     except Exception as e:
         return {
             'profile_data': None,
             'posts_data': [],
             'success': False,
-            'error': f"Failed to initialize database connection: {str(e)}"
+            'error': f"Failed to process data: {str(e)}"
         }
+
+if __name__ == "__main__":
+    # Test username
+    test_username = "cristiano"  # or any other Instagram username you want to test
+    print(f"🚀 Starting scrape for username: {test_username}")
+    
+    # Call the scraping function
+    result = scrape_instagram_profile(test_username, results_limit=5)
+
+    
+    
+    # Print results
+    if result['success']:
+        print("\n✅ Scraping completed successfully!")
+        
+        # Print profile details
+        if result['profile_data']:
+            print_profile_details(result['profile_data'])
+        
+        # Print post details
+        print(f"\nFetched {len(result['posts_data'])} posts:")
+        for post in result['posts_data']:
+            print_post_details(post['post_data'])
+    else:
+        print(f"\n❌ Scraping failed: {result['error']}")
