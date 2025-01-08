@@ -3,4 +3,5 @@ uvicorn
 apify-client
 astrapy>=0.7.4
 pydantic
+python-dotenv
 requests 

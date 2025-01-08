@@ -1,9 +1,13 @@
 from astrapy import DataAPIClient
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Initialize the client
-client = DataAPIClient("AstraCS:PCHzZmRLGrBZkUdcSeHrTomO:9b69012dda24e02987509a2760e9ac7742ac88d4cb83cffaa13c683ac2970ffa")
+client = DataAPIClient(os.getenv("ASTRAPY_API_TOKEN"))
 db = client.get_database_by_api_endpoint(
-    "https://a90d2312-857b-4de2-b98e-67521b64e131-us-east-2.apps.astra.datastax.com"
+    os.getenv("ASTRAPY_API_ENDPOINT")
 )
 
 # Get list of collections

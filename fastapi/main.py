@@ -5,30 +5,34 @@ import json
 import requests
 from typing import Optional, Dict, Any
 from scrap import scrape_instagram_profile
+from dotenv import load_dotenv
+import os
 import logging
+
+load_dotenv()
 
 app = FastAPI()
 
-# Constants
-BASE_API_URL = "https://api.langflow.astra.datastax.com"
-LANGFLOW_ID = "9edb9b8e-f9ed-418a-8cf9-4c44fb6c36b7"
-FLOW_ID = "8f31b8ec-f233-42de-80b2-e4531bdd709e"
-APPLICATION_TOKEN = "AstraCS:hjwrCuNlkpqahuXnwaxfbkov:c7a436b1c173057053ed972f3d1e0bca2743e9078473307d9a5c8956f5976aa4"
+# CONFIGURATION
+BASE_API_URL = os.getenv("BASE_API_URL")
+LANGFLOW_ID = os.getenv("LANGFLOW_ID")
+FLOW_ID = os.getenv("FLOW_ID")
+APPLICATION_TOKEN = os.getenv("APPLICATION_TOKEN")
 ENDPOINT = FLOW_ID
 
-# Default tweaks
+# Tweaks
 TWEAKS = {
     "ChatInput-PVxoG": {},
     "ChatOutput-QqjiD": {},
     "Prompt-pXVnT": {},
     "Agent-UcVdC": {
         "temperature": 0.7,
-        "model_name": "gpt-3.5-turbo"  # or whatever model you're using
+        "model_name": "gpt-4o-mini"  # gpt model 
     },
     "AstraDBToolComponent-Wy97B": {
         "collection_name": "instagram_data",
-        "database_name": "your_database_name",  # replace with your actual database name
-        "keyspace_name": "your_keyspace"        # replace with your actual keyspace
+        "database_name": "your_database_name",  # database name
+        "keyspace_name": "your_keyspace"        # keyspace
     }
 }
 

@@ -2,9 +2,13 @@ from apify_client import ApifyClient
 from urllib.parse import urlparse
 from datetime import datetime
 from vectorStaxConnect import db  # Import the database connection from vectorStaxConnect
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Initialize the ApifyClient with your API token
-apify_client = ApifyClient('apify_api_KzmKE3wuJeT7jacl4mceqjwJGkfYCS0CFPIg')
+apify_client = ApifyClient(os.getenv("APIFY_API_TOKEN"))
 
 def get_instagram_username(url):
     parsed_url = urlparse(url)
@@ -35,13 +39,12 @@ def insert_profile_to_astra(profile_data):
     """Insert profile data into Astra DB"""
     try:
         instagram_collection = db.get_collection("instagram_data")
-        # Add a type field to identify this as a profile
         profile_data['data_type'] = 'profile'
-        # Delete existing profile data for this username
         instagram_collection.delete_many({
             "username": profile_data['username'],
             "data_type": "profile"
         })
+
         # Insert new profile data
         instagram_collection.insert_one(profile_data)
         return True, "Profile data inserted successfully"
@@ -272,6 +275,8 @@ def scrape_instagram_profile(username: str, results_limit: int = 5):
         }
 
 if __name__ == "__main__":
+    
+    # Test Function Calling 
     # Test username
     test_username = "cristiano"  # or any other Instagram username you want to test
     print(f"🚀 Starting scrape for username: {test_username}")
