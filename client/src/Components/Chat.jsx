@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useTheme } from '../context/ThemeContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { URL } from './constant/url';
+import { URL } from '../constant/url';
 
 
 const LoadingMessage = () => (
