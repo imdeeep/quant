@@ -1,6 +1,9 @@
 from apify_client import ApifyClient
 from urllib.parse import urlparse
-from datetime import datetime
+from datetime import datetime, timedelta
+import asyncio
+import aiohttp
+from functools import lru_cache
 from vectorStaxConnect import db  # Import the database connection from vectorStaxConnect
 from dotenv import load_dotenv
 import os
@@ -9,6 +12,36 @@ load_dotenv()
 
 # Initialize the ApifyClient with your API token
 apify_client = ApifyClient(os.getenv("APIFY_API_TOKEN"))
+
+# Add cache for profile data (stores results for 1 hour)
+@lru_cache(maxsize=100)
+def get_cached_profile(username):
+    return None  # Initially None, will be populated on first fetch
+
+def is_cache_valid(username):
+    """Check if we have valid cached data"""
+    cached_data = get_cached_profile(username)
+    if cached_data:
+        cache_time = cached_data.get('cache_time')
+        if cache_time and (datetime.now() - cache_time) < timedelta(hours=1):
+            return True
+    return False
+
+async def fetch_profile_data(apify_client, input_data):
+    """Fetch profile data asynchronously"""
+    actor_call = apify_client.actor('apify/instagram-scraper').call(
+        run_input=input_data,
+        timeout_secs=100  # Reduced timeout
+    )
+    return apify_client.dataset(actor_call['defaultDatasetId']).list_items().items
+
+async def fetch_posts_data(apify_client, input_data):
+    """Fetch posts data asynchronously"""
+    actor_call = apify_client.actor('apify/instagram-scraper').call(
+        run_input=input_data,
+        timeout_secs=100  # Reduced timeout
+    )
+    return apify_client.dataset(actor_call['defaultDatasetId']).list_items().items
 
 def get_instagram_username(url):
     parsed_url = urlparse(url)
@@ -96,9 +129,10 @@ def insert_data_to_astra(profile_data, posts_data):
         
         # Create the nested structure with numbered posts
         numbered_posts = {}
-        for idx, post in enumerate(posts_data, 1):  # Start counting from 1
+        for idx, post in enumerate(posts_data, 1):
             numbered_posts[f"post_{idx}"] = post['post_data']
         
+        # Create new document
         document = {
             "username": profile_data['username'],
             "profile_data": profile_data,
@@ -106,167 +140,202 @@ def insert_data_to_astra(profile_data, posts_data):
             "last_updated": datetime.now().isoformat()
         }
         
-        # Delete existing data for this username only
-        instagram_collection.delete_many({"username": profile_data['username']})
-        print(f"🗑️ Cleared existing data for username: {profile_data['username']}")
-        
         # Insert the new nested document
-        instagram_collection.insert_one(document)
-        return True, "Data inserted successfully"
+        insert_result = instagram_collection.insert_one(document)
+        
+        if insert_result.inserted_id:
+            print(f"✅ Successfully inserted new data for {profile_data['username']}")
+            return True, "Data inserted successfully"
+        else:
+            return False, "Failed to insert data"
+            
     except Exception as e:
+        print(f"❌ Error in insert_data_to_astra: {str(e)}")
         return False, f"Error inserting data: {str(e)}"
 
-def scrape_instagram_profile(username: str, results_limit: int = 5):
+def verify_data_cleanup(username):
+    """Verify that old data has been cleaned up"""
+    try:
+        instagram_collection = db.get_collection("instagram_data")
+        existing_records = instagram_collection.count_documents({
+            "$or": [
+                {"username": username},
+                {"profile_data.username": username},
+                {"posts.username": username}
+            ]
+        })
+        print(f"📊 Found {existing_records} existing records for {username}")
+        return existing_records
+    except Exception as e:
+        print(f"❌ Error verifying cleanup: {str(e)}")
+        return None
+
+def clear_all_instagram_data():
+    """Clear all data from the instagram_data collection"""
+    try:
+        instagram_collection = db.get_collection("instagram_data")
+        delete_result = instagram_collection.delete_many({})  # Empty filter means delete all
+        print(f"🗑️ Cleared entire collection. Deleted {delete_result.deleted_count} documents")
+        return True
+    except Exception as e:
+        print(f"❌ Error clearing collection: {str(e)}")
+        return False
+
+async def scrape_instagram_profile(username: str, results_limit: int = 5):
     """
-    Scrape Instagram profile and posts data, store in database and return results
+    Optimized Instagram profile and posts scraping
     """
     try:
-        # Ensure results_limit is an integer and print for debugging
         results_limit = int(results_limit)
         print(f"🎯 Requested {results_limit} posts")
-        
-        # Initialize return data
+
+        # Clear all existing data from collection first
+        clear_success = clear_all_instagram_data()
+        if not clear_success:
+            print("⚠️ Warning: Failed to clear existing data")
+
+        # Check cache first
+        if is_cache_valid(username):
+            cached_data = get_cached_profile(username)
+            print("✨ Returning cached data")
+            return cached_data
+
         result = {
             'profile_data': None,
             'posts_data': [],
             'success': False,
-            'error': None
+            'error': None,
+            'cache_time': datetime.now()
         }
 
-        try:
-            # First, clear ALL existing data from collection
-            instagram_collection = db.get_collection("instagram_data")
-            instagram_collection.delete_many({})
-            print("🗑️ Cleared all existing data from database")
+        # Optimize input configuration
+        base_input = {
+            "directUrls": [f"https://www.instagram.com/{username}/"],
+            "proxy": {
+                "useApifyProxy": True,
+                "apifyProxyGroups": ["RESIDENTIAL"]
+            },
+            "languageCode": "en"
+        }
 
-            # Configure input for user details
-            input_data = {
-                "directUrls": [f"https://www.instagram.com/{username}/"],
-                "resultsType": "details",
-                "searchType": "user",
-                "proxy": {
-                    "useApifyProxy": True,
-                    "apifyProxyGroups": ["RESIDENTIAL"]
-                },
-                "languageCode": "en"
-            }
+        # Profile input configuration
+        profile_input = {
+            **base_input,
+            "resultsType": "details",
+            "searchType": "user",
+        }
 
-            print(f"🔄 Starting Instagram scraper for {username}...")
-            print(f"📊 Attempting to fetch {results_limit} posts...")
+        # Posts input configuration
+        posts_input = {
+            **base_input,
+            "resultsType": "posts",
+            "maxItems": results_limit,
+            "searchType": "user",
+            "searchLimit": results_limit,
+            "scrapeStories": False,
+            "scrapeHighlights": False,
+            "scrapeIgtv": False,
+            "scrapeReels": True,
+            "scrapePosts": True,
+            "scrapeComments": False,
+            "sort": "newest",
+            "limit": results_limit
+        }
 
-            # Get user details
-            actor_call = apify_client.actor('apify/instagram-scraper').call(
-                run_input=input_data,
-                timeout_secs=120
-            )
+        # Run profile and posts fetching in parallel
+        profile_items, posts_items = await asyncio.gather(
+            fetch_profile_data(apify_client, profile_input),
+            fetch_posts_data(apify_client, posts_input)
+        )
+
+        if not profile_items:
+            raise Exception("No profile data found")
+
+        # Process profile data
+        profile_item = profile_items[0]
+        if 'error' in profile_item:
+            raise Exception("Error in profile data")
+
+        # Process profile data
+        profile_data = {
+            'username': profile_item.get('username', username),
+            'full_name': profile_item.get('fullName', ''),
+            'biography': profile_item.get('biography', ''),
+            'followers_count': profile_item.get('followersCount', 0),
+            'following_count': profile_item.get('followsCount', 0),
+            'is_verified': profile_item.get('verified', False),
+            'profile_pic_url': profile_item.get('profilePicUrl', ''),
+            'profile_url': f"https://www.instagram.com/{username}/",
+            'external_url': profile_item.get('externalUrl', ''),
+            'business_category': profile_item.get('businessCategoryName', ''),
+            'total_posts': profile_item.get('postsCount', 0)
+        }
+
+        result['profile_data'] = profile_data
+
+        # Process posts with optimized sorting
+        posts_items = sorted(
+            posts_items, 
+            key=lambda x: x.get('timestamp', ''), 
+            reverse=True
+        )[:results_limit]  # Limit posts early
+
+        # Process posts data
+        for idx, item in enumerate(posts_items, 1):
+            if 'error' in item:
+                continue
             
-            profile_items = apify_client.dataset(actor_call['defaultDatasetId']).list_items().items
-
-            if not profile_items:
-                raise Exception("No profile data found")
-
-            # Get profile data
-            profile_item = profile_items[0]
+            video_duration = int(round(item.get('videoDuration', 0))) if isinstance(item.get('videoDuration'), float) else 0
             
-            if 'error' in profile_item:
-                raise Exception("Error in profile data")
-
-            # Process profile data
-            profile_data = {
-                'username': profile_item.get('username', username),
-                'full_name': profile_item.get('fullName', ''),
-                'biography': profile_item.get('biography', ''),
-                'followers_count': profile_item.get('followersCount', 0),
-                'following_count': profile_item.get('followsCount', 0),
-                'is_verified': profile_item.get('verified', False),
-                'profile_pic_url': profile_item.get('profilePicUrl', ''),
-                'profile_url': f"https://www.instagram.com/{username}/",
-                'external_url': profile_item.get('externalUrl', ''),
-                'business_category': profile_item.get('businessCategoryName', ''),
-                'total_posts': profile_item.get('postsCount', 0)
+            post_data = {
+                'post_number': f"post_{idx}",  # Add post number
+                'username': username,
+                'post_id': item.get('id', 'unknown'),
+                'post_type': item.get('type', 'unknown'),
+                'likes': item.get('likesCount', 0),
+                'comments': item.get('commentsCount', 0),
+                'shares': item.get('sharesCount', 0),
+                'timestamp': item.get('timestamp', 'unknown'),
+                'profile_url': item.get('url', ''),
+                'caption': item.get('caption', ''),
+                'video_views': item.get('videoViewCount', 0) if item.get('type', '').lower() == 'video' else 0,
+                'video_duration': video_duration if item.get('type', '').lower() == 'video' else 0
             }
-
-            result['profile_data'] = profile_data
-
-            # Update the posts scraping configuration
-            input_data.update({
-                "resultsType": "posts",
-                "maxItems": results_limit,  # Set the maximum items to fetch
-                "searchType": "user",
-                "searchLimit": results_limit,  # Set the search limit
-                "extendOutputFunction": """async ({ data, item, page, customData }) => {
-                    return item;
-                }""",
-                "scrapeStories": False,
-                "scrapeHighlights": False,
-                "scrapeIgtv": False,
-                "scrapeReels": True,
-                "scrapePosts": True,
-                "scrapeComments": False,
-                "sort": "newest",
-                "limit": results_limit  # Add an explicit limit
+            
+            result['posts_data'].append({
+                'post_id': post_data['post_id'],
+                'post_data': post_data,
+                'post_number': f"post_{idx}",  # Add post number to response
+                'db_insert_status': True,
+                'insert_message': 'Post data ready'
             })
 
-            # Increase timeout for larger number of posts
-            actor_call = apify_client.actor('apify/instagram-scraper').call(
-                run_input=input_data,
-                timeout_secs=300  # Increased timeout to 5 minutes for more posts
-            )
-            
-            posts_items = apify_client.dataset(actor_call['defaultDatasetId']).list_items().items
-            posts_items = sorted(posts_items, key=lambda x: x.get('timestamp', ''), reverse=True)
-            
-            # Make sure we get the requested number of posts
-            if len(posts_items) < results_limit:
-                print(f"⚠️ Warning: Only found {len(posts_items)} posts, less than requested {results_limit}")
-            
-            # Process all fetched posts
-            result['posts_data'] = []
-            for idx, item in enumerate(posts_items[:results_limit], 1):
-                if 'error' in item:
-                    continue
-                    
-                video_duration = int(round(item.get('videoDuration', 0))) if isinstance(item.get('videoDuration'), float) else 0
-                
-                post_data = {
-                    'post_number': f"post_{idx}",  # Add post number
-                    'username': username,
-                    'post_id': item.get('id', 'unknown'),
-                    'post_type': item.get('type', 'unknown'),
-                    'likes': item.get('likesCount', 0),
-                    'comments': item.get('commentsCount', 0),
-                    'shares': item.get('sharesCount', 0),
-                    'timestamp': item.get('timestamp', 'unknown'),
-                    'profile_url': item.get('url', ''),
-                    'caption': item.get('caption', ''),
-                    'video_views': item.get('videoViewCount', 0) if item.get('type', '').lower() == 'video' else 0,
-                    'video_duration': video_duration if item.get('type', '').lower() == 'video' else 0
-                }
-                
-                result['posts_data'].append({
-                    'post_id': post_data['post_id'],
-                    'post_data': post_data,
-                    'post_number': f"post_{idx}",  # Add post number to response
-                    'db_insert_status': True,
-                    'insert_message': 'Post data ready'
-                })
+        # Verify and log existing data before deletion
+        existing_count = verify_data_cleanup(username)
+        print(f"🔍 Found {existing_count} existing records before cleanup")
 
-            # Store both profile and posts data together
-            db_success, db_message = insert_data_to_astra(profile_data, result['posts_data'])
-            result['db_status'] = db_success
-            result['db_message'] = db_message
+        # Store both profile and posts data together
+        db_success, db_message = insert_data_to_astra(profile_data, result['posts_data'])
+        
+        # Verify cleanup after insertion
+        final_count = verify_data_cleanup(username)
+        print(f"✅ After insertion: {final_count} record exists")
 
-            result['success'] = True
-            print(f"✅ Successfully fetched {len(result['posts_data'])} posts")
+        result['db_status'] = db_success
+        result['db_message'] = db_message
 
-            return result
+        result['success'] = True
+        print(f"✅ Successfully fetched {len(result['posts_data'])} posts")
 
-        except Exception as e:
-            result['error'] = str(e)
-            print(f"❌ Error processing data: {str(e)}")
-            return result
+        # Update cache
+        get_cached_profile.cache_clear()
+        result['cache_time'] = datetime.now()
+        get_cached_profile(username)  # Cache the new result
+
+        return result
 
     except Exception as e:
+        print(f"❌ Error: {str(e)}")
         return {
             'profile_data': None,
             'posts_data': [],

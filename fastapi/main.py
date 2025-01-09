@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, validator
 import json
 import requests
@@ -8,10 +8,21 @@ from scrap import scrape_instagram_profile
 from dotenv import load_dotenv
 import os
 import logging
+from fastapi.middleware.cors import CORSMiddleware
+from geminiFunc import handle_prompt
 
 load_dotenv()
 
 app = FastAPI()
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Your React app's URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # CONFIGURATION
 BASE_API_URL = os.getenv("BASE_API_URL")
@@ -20,14 +31,14 @@ FLOW_ID = os.getenv("FLOW_ID")
 APPLICATION_TOKEN = os.getenv("APPLICATION_TOKEN")
 ENDPOINT = FLOW_ID
 
-# Tweaks
+# TweaksWhat are the main trends in engagement across the posts?
 TWEAKS = {
     "ChatInput-PVxoG": {},
-    "ChatOutput-QqjiD": {},
+    "ChatOutput-QqjiD": {}, 
     "Prompt-pXVnT": {},
     "Agent-UcVdC": {
         "temperature": 0.7,
-        "model_name": "gpt-4o-mini"  # gpt model 
+        # "model_name": os.getenv("AI_MODEL")  # gpt model 
     },
     "AstraDBToolComponent-Wy97B": {
         "collection_name": "instagram_data",
@@ -215,53 +226,27 @@ class InstagramResponse(BaseModel):
     db_status: bool
     db_message: str
 
-@app.post("/scrape-instagram/", response_model=InstagramResponse)
+@app.post("/scrape-instagram", response_model=InstagramResponse)
 async def scrape_instagram(request: InstagramRequest):
     """
-    Scrape Instagram profile and posts data with database insertion status
+    Scrape Instagram profile and posts data
     
     Parameters:
     - username: Instagram username to scrape
     - results_limit: Number of posts to fetch (default: 5)
-    
-    Returns:
-    - Profile data
-    - Posts data with individual DB insertion status
-    - Total posts count
-    - Database operation status
     """
     try:
-        result = scrape_instagram_profile(
-            username=request.username,
-            results_limit=request.results_limit
-        )
-        
-        if not result['success']:
-            raise HTTPException(
-                status_code=400,
-                detail=result['error'] or "Failed to scrape Instagram data"
-            )
-        
-        # Add total_posts to the result
-        result['total_posts'] = result['profile_data'].get('total_posts', len(result['posts_data']))
-            
-        return {
-            "success": result['success'],
-            "profile_data": result['profile_data'],
-            "posts_data": result['posts_data'],
-            "total_posts": result['total_posts'],
-            "error": result.get('error'),
-            "db_status": result.get('db_status', False),
-            "db_message": result.get('db_message', '')
-        }
-        
+        result = await scrape_instagram_profile(request.username, request.results_limit)
+        if result['success']:
+            # Add total_posts to the result
+            result['total_posts'] = result['profile_data'].get('total_posts', len(result['posts_data']))
+            return result
+        else:
+            raise HTTPException(status_code=400, detail=result['error'])
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
+        raise HTTPException(status_code=400, detail=str(e))
 
-@app.get("/test-config")
+@app.get("/test-config")    
 async def test_configuration():
     """Test the configuration and connections"""
     try:
@@ -287,4 +272,55 @@ async def test_configuration():
             "langflow_id": LANGFLOW_ID,
             "flow_id": FLOW_ID
         }
+
+class GeminiRequest(BaseModel):
+    message: str
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "message": "Analyze the engagement patterns in the social media data"
+            }
+        }
+
+@app.post("/analysis")
+async def analyze_message(request: Request):
+    try:
+        data = await request.json()
+        message = data.get("message")
+        
+        # Use the existing handle_prompt function
+        analysis_text = await handle_prompt(message)
+        
+        # Add visualization data based on the analysis
+        visualization_data = {
+            "labels": ["Image Posts", "Text Posts", "Video Posts"],
+            "datasets": [{
+                "label": 'Average Engagement',
+                "data": [1200, 400, 800],  # Example values
+                "backgroundColor": [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                ],
+                "borderColor": [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                ],
+                "borderWidth": 1
+            }]
+        }
+        
+        return {
+            "status": "success",
+            "analysis": analysis_text,
+            "visualization": visualization_data
+        }
+    except Exception as e:
+        logger.error(f"Analysis failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Analysis failed: {str(e)}"
+        )
 
