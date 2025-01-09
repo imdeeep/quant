@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useTheme } from '../context/ThemeContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { URL } from './constant/url';
+
 
 const LoadingMessage = () => (
     <div className='flex items-start gap-2 hover:bg-zinc-800 rounded p-2'>

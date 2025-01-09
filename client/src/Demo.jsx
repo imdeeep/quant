@@ -7,6 +7,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, DoughnutController } from 'chart.js';
 import { Bar, Pie, Line, Doughnut } from 'react-chartjs-2';
+import { URL } from './constant/url';
+
 
 ChartJS.register(
   CategoryScale,
