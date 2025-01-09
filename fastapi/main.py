@@ -10,6 +10,7 @@ import os
 import logging
 from fastapi.middleware.cors import CORSMiddleware
 from geminiFunc import handle_prompt
+import uvicorn
 
 load_dotenv()
 
@@ -323,4 +324,13 @@ async def analyze_message(request: Request):
             status_code=500,
             detail=f"Analysis failed: {str(e)}"
         )
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 10000))
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=port,
+        reload=True
+    )
 
