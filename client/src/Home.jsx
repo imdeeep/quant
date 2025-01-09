@@ -5,45 +5,61 @@ import { ArrowRight } from "lucide-react";
 import { Rocket } from "lucide-react";
 import Footer from "./Components/Footer";
 import { useState } from "react";
+import { useTheme } from './context/ThemeContext'
 
 const Home = () => {
+  const { theme } = useTheme()
   const [username, setUsername] = useState("");
   // console.log(username);
 
   return (
     <>
       <Navbar />
-      <div className="flex absolute top-[-35vh] z-[-1]">
-        <div className="w-[40vw] h-[20vh] bg-blue-400 blur-[8rem] rounded-full"></div>
-        <div className="w-[20vw] h-[40vh] bg-blue-400 blur-[10rem] rounded-full"></div>
+      <div className={`flex absolute ${
+        theme === 'dark' ? 'top-[-35vh]' : 'top-[-10vh]'
+      } z-[-1]`}>
+        <div className={`w-[40vw] h-[20vh] ${
+            theme === 'dark' 
+            ? 'bg-blue-400' 
+            : 'bg-purple-900'
+          } blur-[8rem] rounded-full`}></div>
+        <div className={`w-[20vw] h-[40vh] ${
+            theme === 'dark' 
+            ? 'bg-blue-400' 
+            : 'bg-purple-900'
+          } blur-[10rem] rounded-full`}></div>
       </div>
 
       {/* Notification Button */}
       <div className="flex justify-center">
-        <button className="text-zinc-300 hover:bg-zinc-900/40 flex border border-zinc-500 rounded-full py-1 px-4 text-sm items-center bg-transparent gap-2">
+        <button className={`${theme === 'dark' ? 'text-zinc-300 hover:bg-zinc-900/40' : 'text-zinc-700 hover:bg-zinc-200/40'}  flex border border-zinc-500 rounded-full py-1 px-4 text-sm items-center bg-transparent gap-2`}>
           <Rocket size={15} /> Introducing Synly: A new social media analyzer
         </button>
       </div>
 
       {/* Hero Section */}
       <div className="flex flex-col pt-[5rem] h-[80vh] text-center">
-        <h1 className="text-[2.6rem] font-bold text-white mainf">
+        <h1 className={`text-[2.6rem] font-bold ${
+            theme === 'dark' 
+            ? 'text-white' 
+            : 'text-black'
+          } mainf`}>
           Welcome to Synly, let's analyze!
         </h1>
-        <p className="text-[1.2rem] text-zinc-400 mainf">
+        <p className={`text-[1.2rem] ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-600'} mainf`}>
           Unlock actionable insights from your social media platforms.
         </p>
         <div className="mt-6 w-[40vw] h-[30vh] mx-auto relative">
-          <Link to={`/analysis?uname=${username}`}>
+          <Link to={`/realtime?uname=${username}`}>
             <ArrowRight
-              className="text-black absolute bg-white z-[2] p-1 bottom-2 right-2  rounded"
+              className={`${theme === 'dark' ? 'text-black bg-white' : 'text-white bg-black'} absolute z-[2] p-1 bottom-2 right-2  rounded`}
               size={30}
             />
           </Link>
           <textarea
             name=""
-            className="bg-gradient-to-b border w-[40vw] h-[30vh] border-zinc-800 outline-none from-[#141414] to-[#0A0A0A] p-3 rounded-md text-white text-sm resize-none "
-            placeholder="Enter your Instagram profile ID -"
+            className={`bg-gradient-to-b border w-[40vw] h-[30vh] outline-none ${theme === 'dark' ? 'from-[#141414] to-[#0A0A0A] border-zinc-800 text-white ' : 'from-[#f0f0f0] to-[#e0e0e0] border-zinc-300 text-black'} p-3 rounded-md text-sm resize-none `}
+            placeholder="Enter your Instagram profile Id for real-time analysis -"
             id=""
             onChange={(e) => setUsername(e.target.value)}
           ></textarea>

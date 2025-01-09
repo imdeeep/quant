@@ -16,8 +16,10 @@ import {
   Area,
 } from "recharts";
 import { Users, MessageCircle, Eye, Calendar, Activity, Heart, Share2 } from "lucide-react";
+import { useTheme } from '../context/ThemeContext';
 
 const InstagramProfile = ({ data }) => {
+  const { theme } = useTheme()
   const { profile_data, posts_data } = data;
 
   const formatNumber = (num) => {
@@ -105,9 +107,12 @@ const InstagramProfile = ({ data }) => {
   ];
 
   return (
-    <div className="space-y-4 p-4 bg-transparent rounded-xl">
-      {/* Profile Header - More compact */}
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
+    <div className={`space-y-4 p-4 rounded-xl ${theme === 'dark' ? 'bg-transparent' : 'bg-transparent'}`}>
+      {/* Profile Header */}
+      <div className={`flex flex-col md:flex-row items-start md:items-center gap-3 p-3 
+        ${theme === 'dark' ? 'bg-zinc-800/50' : 'bg-white'} 
+        rounded-lg border ${theme === 'dark' ? 'border-zinc-700/50' : 'border-gray-200'} 
+        ${theme === 'dark' ? 'shadow-zinc-900/50' : 'shadow-gray-200/50'} shadow-lg`}>
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlvA7GIu55Y8DhQqsNrhNa6D6XofSNMrdWWKkBklXoezSPPo5K8aj2-iUwQmmu4Tx91ZA&usqp=CAU"
           alt={profile_data.username}
@@ -115,42 +120,50 @@ const InstagramProfile = ({ data }) => {
         />
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+            <h1 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               {profile_data.full_name}
             </h1>
             {profile_data.is_verified && (
-              <span className="bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded text-xs font-medium">
+              <span className="bg-blue-500/10 text-blue-500 px-1.5 py-0.5 rounded text-xs font-medium">
                 Verified
               </span>
             )}
           </div>
-          <p className="text-xs text-zinc-400">@{profile_data.username}</p>
-          <p className="text-xs text-zinc-300 mt-1.5 max-w-2xl">{profile_data.biography}</p>
+          <p className={`text-xs ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'}`}>@{profile_data.username}</p>
+          <p className={`text-xs ${theme === 'dark' ? 'text-zinc-300' : 'text-gray-600'} mt-1.5 max-w-2xl`}>
+            {profile_data.biography}
+          </p>
         </div>
       </div>
 
-      {/* Primary Metrics - More compact */}
+      {/* Primary Metrics */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {metrics.map((metric, index) => (
-          <div key={index} className="bg-white/5 p-2.5 rounded-lg border border-white/10">
+          <div key={index} className={`p-2.5 rounded-lg border
+            ${theme === 'dark' ? 'bg-zinc-800/50 border-zinc-700/50' : 'bg-white border-gray-200'}
+            ${theme === 'dark' ? 'shadow-zinc-900/50' : 'shadow-gray-200/50'} shadow-lg`}>
             <div className="flex items-center gap-2">
               <div className={`p-1.5 rounded-md ${metric.bgColor}`}>
                 <metric.icon className={`${metric.color} w-3.5 h-3.5`} />
               </div>
               <div>
-                <p className="text-[11px] text-zinc-400">{metric.title}</p>
-                <p className="text-sm font-bold">{metric.value}</p>
+                <p className={`text-[11px] ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'}`}>{metric.title}</p>
+                <p className={`text-sm font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{metric.value}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Analytics Grid - More compact */}
+      {/* Analytics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-        {/* Engagement Area Chart */}
-        <div className="bg-white/5 p-3 rounded-lg border border-white/10">
-          <h2 className="text-xs font-semibold mb-2">Engagement Trends</h2>
+        {/* Chart containers */}
+        <div className={`p-3 rounded-lg border
+          ${theme === 'dark' ? 'bg-zinc-800/50 border-zinc-700/50' : 'bg-white border-gray-200'}
+          ${theme === 'dark' ? 'shadow-zinc-900/50' : 'shadow-gray-200/50'} shadow-lg`}>
+          <h2 className={`text-xs font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+            Engagement Trends
+          </h2>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={getPostMetrics}>
@@ -172,9 +185,12 @@ const InstagramProfile = ({ data }) => {
           </div>
         </div>
 
-        {/* Comments Bar Chart */}
-        <div className="bg-white/5 p-3 rounded-lg border border-white/10">
-          <h2 className="text-xs font-semibold mb-2">Comments Analysis</h2>
+        <div className={`p-3 rounded-lg border
+          ${theme === 'dark' ? 'bg-zinc-800/50 border-zinc-700/50' : 'bg-white border-gray-200'}
+          ${theme === 'dark' ? 'shadow-zinc-900/50' : 'shadow-gray-200/50'} shadow-lg`}>
+          <h2 className={`text-xs font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+            Comments Analysis
+          </h2>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={getPostMetrics.slice(-7)}>
@@ -190,9 +206,12 @@ const InstagramProfile = ({ data }) => {
           </div>
         </div>
 
-        {/* Engagement Rate Line Chart */}
-        <div className="bg-white/5 p-3 rounded-lg border border-white/10">
-          <h2 className="text-xs font-semibold mb-2">Engagement Rate</h2>
+        <div className={`p-3 rounded-lg border
+          ${theme === 'dark' ? 'bg-zinc-800/50 border-zinc-700/50' : 'bg-white border-gray-200'}
+          ${theme === 'dark' ? 'shadow-zinc-900/50' : 'shadow-gray-200/50'} shadow-lg`}>
+          <h2 className={`text-xs font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+            Engagement Rate
+          </h2>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={getPostMetrics}>
@@ -211,13 +230,15 @@ const InstagramProfile = ({ data }) => {
         {/* Additional Metrics Grid */}
         <div className="grid grid-cols-2 gap-2">
           {detailMetrics.map((metric, index) => (
-            <div key={index} className="bg-white/5 p-2.5 rounded-lg border border-white/10">
+            <div key={index} className={`p-2.5 rounded-lg border
+              ${theme === 'dark' ? 'bg-zinc-800/50 border-zinc-700/50' : 'bg-white border-gray-200'}
+              ${theme === 'dark' ? 'shadow-zinc-900/50' : 'shadow-gray-200/50'} shadow-lg`}>
               <div className="flex items-start gap-2">
-                <metric.icon className="w-3.5 h-3.5 text-zinc-400" />
+                <metric.icon className={`w-3.5 h-3.5 ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'}`} />
                 <div>
-                  <p className="text-[11px] text-zinc-400">{metric.title}</p>
-                  <p className="text-md font-bold">{metric.value}</p>
-                  <p className="text-[12px] text-zinc-500">{metric.change}</p>
+                  <p className={`text-[11px] ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'}`}>{metric.title}</p>
+                  <p className={`text-md font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{metric.value}</p>
+                  <p className={`text-[12px] ${theme === 'dark' ? 'text-zinc-500' : 'text-gray-400'}`}>{metric.change}</p>
                 </div>
               </div>
             </div>
