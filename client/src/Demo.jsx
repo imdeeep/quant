@@ -26,7 +26,7 @@ ChartJS.register(
 const LoadingMessage = () => (
   <div className='flex items-start gap-2 hover:bg-zinc-800 rounded p-2'>
     <img
-      src="https://website.cdn.speechify.com/2023_10_DALL-E-Logo.webp?quality=80&width=1920"
+      src="/logo.png"
       alt="ai"
       className='w-8 h-8 rounded border border-zinc-600 flex-shrink-0'
     />

@@ -90,7 +90,7 @@ const Chat = () => {
             const newAiMessage = {
                 type: 'ai',
                 content: responseText,
-                avatar: "https://website.cdn.speechify.com/2023_10_DALL-E-Logo.webp?quality=80&width=1920",
+                avatar: "/logo.png",
                 timestamp: aiResponse.data.message.timestamp
             };
 
@@ -100,7 +100,7 @@ const Chat = () => {
             const errorMessage = {
                 type: 'ai',
                 content: "Sorry, I encountered an error processing your request.",
-                avatar: "https://website.cdn.speechify.com/2023_10_DALL-E-Logo.webp?quality=80&width=1920"
+                avatar: "/logo.png"
             };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
