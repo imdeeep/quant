@@ -261,7 +261,7 @@ const Demo = () => {
     setIsLoading(true);
 
     try {
-      const aiResponse = await axios.post('http://localhost:8000/analysis', {
+      const aiResponse = await axios.post(`${URL}/analysis`, {
         message: inputText,
       });
 

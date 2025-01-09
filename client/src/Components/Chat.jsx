@@ -78,7 +78,7 @@ const Chat = () => {
         setIsLoading(true);
 
         try {
-            const aiResponse = await axios.post('http://localhost:8000/run-flow', {
+            const aiResponse = await axios.post(`${URL}/run-flow`, {
                 message: inputText,
                 clear_context: true
             });

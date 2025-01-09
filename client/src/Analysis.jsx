@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 // import { data } from './Components/data';
 import Chat from './Components/Chat';
 import { useTheme } from './context/ThemeContext';
+import { URL } from './constant/url';
 
 const Analysis = () => {
   const { theme } = useTheme()
@@ -55,7 +56,7 @@ const Analysis = () => {
       if (dataFetchedRef.current) return;
       setIsLoading(true);
       try {
-        const response = await axios.post('http://localhost:8000/scrape-instagram', {
+        const response = await axios.post(`${URL}/scrape-instagram`, {
           username: uname,
           results_limit: 25
         });
