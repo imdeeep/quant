@@ -83,7 +83,7 @@ const Analysis = () => {
       {isLoading && <Loader />}
       <div className='flex h-screen text-white'>
         {/* Left Area */}
-        <div className='w-[55%] overflow-y-auto h-full'>
+        <div className='w-[55%] overflow-y-auto h-full no-scrollbar'>
           <div className="absolute top-[-40vh] left-[5vh] z-[-1]">
             <div className={`w-[40vw] h-[30vh] ${theme === 'dark' ? 'bg-purple-400' : 'bg-purple-900'} blur-[8rem] rounded-full`}></div>
             <div className={`w-[20vw] h-[40vh] ${theme === 'dark' ? 'bg-blue-400' : 'bg-blue-900'} blur-[10rem] rounded-full`}></div>

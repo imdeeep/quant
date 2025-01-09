@@ -17,7 +17,7 @@ const LoadingMessage = () => (
         <div className='flex-1 min-w-0'>
             <div className='flex items-center gap-2'>
                 <p className='text-sm font-medium bg-green-500 text-transparent bg-clip-text'>
-                    AI gpt-4-mini
+                    Synly Ai
                 </p>
             </div>
             <div className='mt-1 bg-transparent rounded-md p-2'>
@@ -133,7 +133,7 @@ const Chat = () => {
                                             <p className={`text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-purple-800'} font-medium`}>User</p>
                                         ) : (
                                             <p className={`text-sm ${theme === 'dark' ? 'text-green-400' : 'text-green-800'} font-medium`}>
-                                                AI Assistant
+                                                Synly Ai
                                             </p>
                                         )}
                                     </div>
