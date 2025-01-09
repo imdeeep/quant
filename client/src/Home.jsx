@@ -4,8 +4,12 @@ import Navbar from "./Components/Navbar";
 import { ArrowRight } from "lucide-react";
 import { Rocket } from "lucide-react";
 import Footer from "./Components/Footer";
+import { useState } from "react";
 
 const Home = () => {
+  const [username, setUsername] = useState("");
+  // console.log(username);
+
   return (
     <>
       <Navbar />
@@ -30,7 +34,7 @@ const Home = () => {
           Unlock actionable insights from your social media platforms.
         </p>
         <div className="mt-6 w-[40vw] h-[30vh] mx-auto relative">
-          <Link to="/analysis">
+          <Link to={`/analysis?uname=${username}`}>
             <ArrowRight
               className="text-black absolute bg-white z-[2] p-1 bottom-2 right-2  rounded"
               size={30}
@@ -41,6 +45,7 @@ const Home = () => {
             className="bg-gradient-to-b border w-[40vw] h-[30vh] border-zinc-800 outline-none from-[#141414] to-[#0A0A0A] p-3 rounded-md text-white text-sm resize-none "
             placeholder="Enter your Instagram profile ID -"
             id=""
+            onChange={(e) => setUsername(e.target.value)}
           ></textarea>
         </div>
       </div>
