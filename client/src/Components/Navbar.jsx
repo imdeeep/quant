@@ -10,7 +10,7 @@ const Navbar = () => {
     <div className={`bg-transparent flex justify-between py-2 px-4 items-center ${
       theme === 'dark' ? 'text-white' : 'text-gray-900'
     }`}>
-      <Link to="/" className='logo font-bold italic text-[1.2rem]'>Synly</Link>
+      <Link to="/" className='logo font-bold italic text-[1.2rem]'>Quant</Link>
       <div className='flex items-center space-x-4'>
         <div className='space-x-2'>
           <Link to="/about" className={`text-sm ${

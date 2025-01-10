@@ -33,7 +33,7 @@ const LoadingMessage = () => (
     <div className='flex-1 min-w-0'>
       <div className='flex items-center gap-2'>
         <p className='text-sm font-medium bg-green-500 text-transparent bg-clip-text'>
-          Synly Ai
+          Quant Ai
         </p>
       </div>
       <div className='mt-1 bg-transparent rounded-md p-2'>
@@ -274,7 +274,7 @@ const Demo = () => {
       const newAiMessage = {
         type: 'ai',
         content: responseText,
-        avatar: "https://website.cdn.speechify.com/2023_10_DALL-E-Logo.webp?quality=80&width=1920",
+        avatar: "/logo.png",
         timestamp: new Date().toISOString(),
         chartData: chartData
       };
@@ -303,7 +303,7 @@ const Demo = () => {
     <div className={`w-full ${theme === 'dark' ? 'bg-[#121212]' : 'bg-white'} h-screen flex flex-col`}>
       <div className={`bg-transparent flex justify-between py-2 px-4 items-center ${theme === 'dark' ? 'text-white' : 'text-gray-900'
         }`}>
-        <Link to="/" className='logo font-bold italic text-[1.2rem]'>Synly</Link>
+        <Link to="/" className='logo font-bold italic text-[1.2rem]'>Quant</Link>
         <div className='flex items-center space-x-4'>
           <div className='space-x-2'>
             <Link to="/" className='text-sm bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md text-white'>

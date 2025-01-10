@@ -89,7 +89,7 @@ const Analysis = () => {
             <div className={`w-[20vw] h-[40vh] ${theme === 'dark' ? 'bg-blue-400' : 'bg-blue-900'} blur-[10rem] rounded-full`}></div>
           </div>
           <div className='py-2 px-4'>
-            <Link to="/" className={`logo font-bold italic text-[1.2rem] ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Synly</Link>
+            <Link to="/" className={`logo font-bold italic text-[1.2rem] ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Quant</Link>
           </div>
           {data && <InstagramProfile data={data} />}
         </div>

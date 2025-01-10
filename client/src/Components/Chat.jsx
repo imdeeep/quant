@@ -10,14 +10,14 @@ import { URL } from '../constant/url';
 const LoadingMessage = () => (
     <div className='flex items-start gap-2 hover:bg-zinc-800 rounded p-2'>
         <img
-            src="https://website.cdn.speechify.com/2023_10_DALL-E-Logo.webp?quality=80&width=1920"
+            src="/logo.png"
             alt="ai"
             className='w-8 h-8 rounded border border-zinc-600 flex-shrink-0'
         />
         <div className='flex-1 min-w-0'>
             <div className='flex items-center gap-2'>
                 <p className='text-sm font-medium bg-green-500 text-transparent bg-clip-text'>
-                    Synly Ai
+                    Quant Ai
                 </p>
             </div>
             <div className='mt-1 bg-transparent rounded-md p-2'>
@@ -133,7 +133,7 @@ const Chat = () => {
                                             <p className={`text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-purple-800'} font-medium`}>User</p>
                                         ) : (
                                             <p className={`text-sm ${theme === 'dark' ? 'text-green-400' : 'text-green-800'} font-medium`}>
-                                                Synly Ai
+                                                Quant Ai
                                             </p>
                                         )}
                                     </div>

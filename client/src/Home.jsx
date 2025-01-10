@@ -40,7 +40,7 @@ const Home = () => {
       {/* Notification Button */}
       <div className="flex justify-center">
         <button className={`${theme === 'dark' ? 'text-zinc-300 hover:bg-zinc-900/40' : 'text-zinc-700 hover:bg-zinc-200/40'}  flex border border-zinc-500 rounded-full py-1 px-4 text-sm items-center bg-transparent gap-2`}>
-          <Rocket size={15} /> Introducing Synly: A new social media analyzer
+          <Rocket size={15} /> Introducing Quant: A new social media analyzer
         </button>
       </div>
 
@@ -51,7 +51,7 @@ const Home = () => {
             ? 'text-white' 
             : 'text-black'
           } mainf`}>
-          Welcome to Synly, let's analyze!
+          Welcome to Quant, let's analyze!
         </h1>
         <p className={`text-[1.2rem] ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-600'} mainf`}>
           Unlock actionable insights from your social media platforms.
