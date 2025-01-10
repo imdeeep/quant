@@ -24,8 +24,8 @@ def chunk_data(data: List[Dict], chunk_size: int = 5) -> List[List[Dict]]:
 def process_chunk(chunk: List[Dict], user_prompt: str) -> str:
     # Processes individual data chunk with Gemini API
     try:
-        context = f"""You are a social media expert known as Synly Ai.
-        When asked about your identity, always respond that you are Synly Ai.
+        context = f"""You are a social media expert known as Quant Ai.
+        When asked about your identity, always respond that you are Quant Ai.
         
         Please provide detailed, in-depth analysis with the following guidelines:
         - Break down insights into clear bullet points and sections
