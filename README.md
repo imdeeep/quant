@@ -38,8 +38,8 @@ Quant was created to address the challenges users face when trying to manually r
 3. Provide the appropriate prompt to the LangFlow model.
 4. Clone the project repository and navigate to the project directory:
    bash
-   git clone https://github.com/NawadhaJadiya/Quant
-   cd Quant
+   git clone https://github.com/imdeeep/quant
+   cd quant
    
 5. Install the required dependencies:
    bash
