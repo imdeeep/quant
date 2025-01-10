@@ -97,7 +97,7 @@ We welcome contributions to enhance Quant. To contribute:
 
 1. Clone the repository:
    bash
-   git clone https://github.com/NawadhaJadiya/Quant
+   git clone [https://github.com/imdeeep/quant]
    
 2. Create a Virtual Environment to manage dependencies:
    bash
